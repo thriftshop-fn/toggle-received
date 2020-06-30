@@ -12,6 +12,9 @@ GOOGLE_PRIVATE_KEY=
 GOOGLE_SPREADSHEET_ID_FROM_URL=
 ```
 
+<details>
+  <summary>Set Up Google Services If Not Yet Set Up</summary>
+
 > [Create New Google Project](https://console.developers.google.com/projectcreate)
 
 ![pic-selected-200630-1220-20](https://user-images.githubusercontent.com/55337687/86083241-414ecf00-bacc-11ea-83a9-f93a44e06bf0.png)
@@ -73,7 +76,7 @@ https://docs.google.com/spreadsheets/d/COPY-THIS-URL-SEGMENT/edit#gid=0
 
 ![share-to-google-email](https://user-images.githubusercontent.com/55337687/86082878-6858d100-bacb-11ea-93fc-0a40f2baf692.png)
 
-
+</details>
 
 > run `netlify dev` command
 
