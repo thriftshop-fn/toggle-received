@@ -1,14 +1,20 @@
 if (!process.env.NETLIFY) {
   require("dotenv").config();
 }
-if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL)
-  throw new Error("no GOOGLE_SERVICE_ACCOUNT_EMAIL env var set");
-if (!process.env.GOOGLE_PRIVATE_KEY)
-  throw new Error("no GOOGLE_PRIVATE_KEY env var set");
-if (!process.env.GOOGLE_SPREADSHEET_ID_FROM_URL)
-  throw new Error("no GOOGLE_SPREADSHEET_ID_FROM_URL env var set");
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
+
+const {
+  GOOGLE_SERVICE_ACCOUNT_EMAIL,
+  GOOGLE_PRIVATE_KEY,
+  GOOGLE_SPREADSHEET_ID_FROM_URL,
+} = process.env;
+
+if (!GOOGLE_SERVICE_ACCOUNT_EMAIL)
+  throw new Error("no GOOGLE_SERVICE_ACCOUNT_EMAIL env var set");
+if (!GOOGLE_PRIVATE_KEY) throw new Error("no GOOGLE_PRIVATE_KEY env var set");
+if (!GOOGLE_SPREADSHEET_ID_FROM_URL)
+  throw new Error("no GOOGLE_SPREADSHEET_ID_FROM_URL env var set");
 
 exports.handler = async (event) => {
   
@@ -21,10 +27,10 @@ exports.handler = async (event) => {
   }
   try {
     const doc = new GoogleSpreadsheet(
-      process.env.GOOGLE_SPREADSHEET_ID_FROM_URL
+      GOOGLE_SPREADSHEET_ID_FROM_URL
     );
     await doc.useServiceAccountAuth({
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     });
     await doc.loadInfo();
