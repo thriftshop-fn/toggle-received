@@ -85,7 +85,7 @@ https://docs.google.com/spreadsheets/d/COPY-THIS-URL-SEGMENT/edit#gid=0
 > *Raw JSON PAYLOAD*
 ```json
 {
-    "reference_no": "dh5zPAn" // UNIQUE Paymongo Reference No.
+    "reference_no": "dh5zPAn"
 }
 ```
 
