@@ -17,7 +17,6 @@ if (!GOOGLE_SPREADSHEET_ID_FROM_URL)
   throw new Error("no GOOGLE_SPREADSHEET_ID_FROM_URL env var set");
 
 exports.handler = async (event) => {
-  
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -25,30 +24,31 @@ exports.handler = async (event) => {
       headers: { Allow: "POST" },
     };
   }
+
+  const { reference_no = null } = JSON.parse(event.body);
+
+  if (!reference_no) {
+    let error = {
+      statusCode: 422,
+      body: "Reference is Required!",
+    };
+    return {
+      statusCode: 500,
+      body: JSON.stringify(error),
+    };
+  }
+
   try {
-    const doc = new GoogleSpreadsheet(
-      GOOGLE_SPREADSHEET_ID_FROM_URL
-    );
+    const doc = new GoogleSpreadsheet(GOOGLE_SPREADSHEET_ID_FROM_URL);
     await doc.useServiceAccountAuth({
       client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     });
     await doc.loadInfo();
 
-    const sheet = doc.sheetsByIndex[0];
-    const { reference_no = null } = JSON.parse(event.body);
+    const purchase_sheet = doc.sheetsById[1];
 
-    if (!reference_no) {
-      let error = {
-        statusCode: 422,
-        body: "Reference is Required!",
-      };
-      return {
-        statusCode: 500,
-        body: JSON.stringify(error),
-      };
-    }
-    const rows = await sheet.getRows();
+    const rows = await purchase_sheet.getRows();
     const rowIndex = rows.findIndex((x) => x.reference_no == reference_no);
 
     if (rowIndex == -1) {
@@ -66,7 +66,9 @@ exports.handler = async (event) => {
     } else {
       rows[rowIndex].received = "no";
     }
+
     var isReceived = "Order Has Been Mark As Not Yet Received";
+
     if (rows[rowIndex].received == "yes") {
       isReceived = "Order Has Been Mark As Received";
     }
