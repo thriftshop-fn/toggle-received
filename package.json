@@ -1,7 +1,7 @@
 {
   "name": "toggle-received-fn",
   "version": "1.0.0",
-  "description": "## Usage",
+  "description": "Toggle Received Status",
   "author": "GoldCoders",
   "license": "ISC",
   "dependencies": {
