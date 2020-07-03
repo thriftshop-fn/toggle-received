@@ -89,6 +89,10 @@ https://docs.google.com/spreadsheets/d/COPY-THIS-URL-SEGMENT/edit#gid=0
 }
 ```
 
+> **NOTE**
+
+- This is Disabled Once We Put "DONE" on remarks
+
 
 ## Deploy
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/thriftshop-fn/toggle-received)
