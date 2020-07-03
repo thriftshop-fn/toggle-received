@@ -93,6 +93,8 @@ https://docs.google.com/spreadsheets/d/COPY-THIS-URL-SEGMENT/edit#gid=0
 
 - This is Disabled Once We Put "DONE" on remarks
 
+- If We marked it as "DONE" but received is false value , we marked it as received!
+
 
 ## Deploy
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/thriftshop-fn/toggle-received)
