@@ -32,10 +32,7 @@ exports.handler = async (event) => {
       statusCode: 422,
       body: "Reference is Required!",
     };
-    return {
-      statusCode: 500,
-      body: JSON.stringify(error),
-    };
+    return error;
   }
 
   try {
@@ -56,10 +53,7 @@ exports.handler = async (event) => {
         statusCode: 404,
         body: "Reference Number Not Found!",
       };
-      return {
-        statusCode: 404,
-        body: JSON.stringify(error),
-      };
+      return error;
     }
     if (rows[rowIndex].received == "no" || rows[rowIndex].received == false) {
       rows[rowIndex].received = "yes";
