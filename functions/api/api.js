@@ -59,38 +59,41 @@ exports.handler = async (event) => {
       };
       return error;
     }
+    let message =
+      "Oops!Request Failed. We Already Marked This Transaction as DONE";
 
     if (
-      rows[rowIndex].remarks === "DONE" ||
-      rows[rowIndex].remarks === "done"
+      (rows[rowIndex].remarks === "DONE" && rows[rowIndex].received == "yes") ||
+      (rows[rowIndex].remarks === "done" && rows[rowIndex].received == "yes")
     ) {
-      return {
+      let error = {
         statusCode: 400,
         body: JSON.stringify({
-          message:
-            "Opps! Failed to Mark/Unmark as Received Since We Already Mark This Transaction As DONE",
+          message,
         }),
       };
-    }
-
-    if (rows[rowIndex].received == "no" || rows[rowIndex].received == false) {
+      return error;
+    } else if (
+      (rows[rowIndex].remarks === "DONE" && rows[rowIndex].received == "no") ||
+      (rows[rowIndex].remarks === "done" && rows[rowIndex].received == "no")
+    ) {
       rows[rowIndex].received = "yes";
+      message = "Transaction is DONE Already and marked as Received!";
     } else {
-      rows[rowIndex].received = "no";
+      if (rows[rowIndex].received == "no" || rows[rowIndex].received == false) {
+        rows[rowIndex].received = "yes";
+        message = "Order Marked As Received!";
+      } else {
+        rows[rowIndex].received = "no";
+        message = "Order Unmarked as Received!";
+      }
     }
-
-    var isReceived = "Order Has Been Mark As Not Yet Received";
-
-    if (rows[rowIndex].received == "yes") {
-      isReceived = "Order Has Been Mark As Received";
-    }
-
     await rows[rowIndex].save();
 
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: `${isReceived}`,
+        message,
       }),
     };
   } catch (e) {
