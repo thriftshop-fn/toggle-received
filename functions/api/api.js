@@ -30,7 +30,9 @@ exports.handler = async (event) => {
   if (!reference_no) {
     let error = {
       statusCode: 422,
-      body: "Reference is Required!",
+      body: JSON.stringify({
+        message: "Reference Number is Required!",
+      }),
     };
     return error;
   }
@@ -51,10 +53,26 @@ exports.handler = async (event) => {
     if (rowIndex == -1) {
       let error = {
         statusCode: 404,
-        body: "Reference Number Not Found!",
+        body: JSON.stringify({
+          message: "Reference Number Not Found!",
+        }),
       };
       return error;
     }
+
+    if (
+      rows[rowIndex].remarks === "DONE" ||
+      rows[rowIndex].remarks === "done"
+    ) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message:
+            "Opps! Failed to Mark/Unmark as Received Since We Already Mark This Transaction As DONE",
+        }),
+      };
+    }
+
     if (rows[rowIndex].received == "no" || rows[rowIndex].received == false) {
       rows[rowIndex].received = "yes";
     } else {
